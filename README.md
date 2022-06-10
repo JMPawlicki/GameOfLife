@@ -1,5 +1,3 @@
-# GameOfLife
-Projekt gry GameOfLife
+# Window
 
-Witamy Pana w naszym repozytorium GitHub!
-Tutaj umieszczaliśmy kod gry oraz grafiki potrzebne do realizacji projektu.
+Tutaj znajduuje się kod odpowiedzialny za okno wyboru opcji "rozgrywki"
