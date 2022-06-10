@@ -55,4 +55,38 @@ class Button:
             else:
                 self.showing = False
 # ---------------------------------------------------------------------------------------------------------------------
+    # funkcja zajmująca się przyciskaniem przycisku
+    def draw(self):
+        if self.showing:
+            if self.border:
+                self.image.fill(self.border_color)
+                if self.hovered:
+                    pygame.draw.rect(self.image, self.hover_color, (self.border_width, self.border_width,
+                                                                    self.width - (self.border_width * 2),
+                                                                    self.height - (self.border_width * 2)))
+                else:
+                    pygame.draw.rect(self.image, self.color, (self.border_width, self.border_width,
+                                                                    self.width - (self.border_width * 2),
+                                                                    self.height - (self.border_width * 2)))
 
+            else:
+                self.image.fill(self.color)
+            if len(self.text) > 0:
+                self.show_text()
+            self.surface.blit(self.image, self.pos)
+
+# ---------------------------------------------------------------------------------------------------------------------
+    def mouse_hovering(self, pos):
+        if self.showing:
+            if pos[0] > self.pos[0] and pos[0] < self.pos[0] + self.width:
+                if pos[1] > self.pos[1] and pos[1] < self.pos[1] + self.height:
+                    return True
+            else:
+                return False
+        else:
+            return False
+
+# ---------------------------------------------------------------------------------------------------------------------
+    def click(self):
+        if self.function != 0 and self.hovered :
+            self.function()
