@@ -1,3 +1,3 @@
-# Cell
+#Button
 
-Ten branch odpowiada za kod towrzenia komórek oraz identyfikacji sąsiadów.
+Tutaj znajduuje się kod odpowiedzialny za funkcjonowanie przycików.
