@@ -4,6 +4,7 @@ import pygame
 vec =pygame.math.Vector2
 
 class Button:
+    # inicjalizacja zmiennych
     def __init__(self, surface, x, y, width, height, state = '', function = 0, color = (255, 255, 255), hover_color = (255, 255, 255),
                  border = True, border_width = 2, border_color = (0, 0, 0), text = '', font_name = 'arial', text_size = 20,
                  text_color = (0, 0, 0), bold_text = False):
@@ -30,6 +31,28 @@ class Button:
         self.bold_text = bold_text
         self.hovered = False
         self.showing = True
-
-
+# ---------------------------------------------------------------------------------------------------------------------
+    #funckja wywołująca teskt na przyciku
+    def show_text(self):
+        font = pygame.font.SysFont(self.font_name, self.text_size, bold = self.bold_text)
+        text = font.render(self.text, False, self.text_color)
+        size = text.get_size()
+        x, y = self.width//2-(size[0]//2), self.height//2-(size[1]//2)
+        pos = vec(x,y)
+        self.image.blit(text, pos)
+# ---------------------------------------------------------------------------------------------------------------------
+    #funckja odpowiadająca za zmiany wyglądu przycisku
+    def update(self, pos, game_state = ''):
+        if self.mouse_hovering(pos):
+            self.hovered = True
+        else:
+            self.hovered = False
+        if self.state == '' or game_state == '':
+            self.showing = True
+        else:
+            if self.state == game_state:
+                self.showing = True
+            else:
+                self.showing = False
+# ---------------------------------------------------------------------------------------------------------------------
 
