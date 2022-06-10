@@ -1,5 +1,3 @@
-# GameOfLife
-Projekt gry GameOfLife
+# Cell
 
-Witamy Pana w naszym repozytorium GitHub!
-Tutaj umieszczaliśmy kod gry oraz grafiki potrzebne do realizacji projektu.
+Ten branch odpowiada za kod towrzenia komórek oraz identyfikacji sąsiadów.
