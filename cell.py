@@ -1,59 +1,62 @@
-#chuj
-# Kocham piwko
-# klasa obsługująca przzycisk
-
+import random
+import os
 import pygame
-vec =pygame.math.Vector2
 
-class Button:
-    # inicjalizacja zmiennych
-    def __init__(self, surface, x, y, width, height, state = '', function = 0, color = (255, 255, 255), hover_color = (255, 255, 255),
-                 border = True, border_width = 2, border_color = (0, 0, 0), text = '', font_name = 'arial', text_size = 20,
-                 text_color = (0, 0, 0), bold_text = False):
-        self.x = x
-        self.y = y
-        self.pos = vec(x, y)
-        self.width = width
-        self.height = height
+class Cell:
+    def __init__(self, surface, grid_x, grid_y, grafika):
+        self.alive = False
         self.surface = surface
-        self.image = pygame.Surface((width, height))
+        self.grid_x = grid_x
+        self.grid_y = grid_y
+        self.image = pygame.Surface((20,20))
         self.rect = self.image.get_rect()
-        self.rect.topleft = self.pos
-        self.state = state
-        self.function = function
-        self.color = color
-        self.hover_color = hover_color
-        self.border = border
-        self.border_width = border_width
-        self.border_color = border_color
-        self.text = text
-        self.font_name = font_name
-        self.text_size = text_size
-        self.text_color = text_color
-        self.bold_text = bold_text
-        self.hovered = False
-        self.showing = True
-# ---------------------------------------------------------------------------------------------------------------------
-    #funckja wywołująca teskt na przyciku
-    def show_text(self):
-        font = pygame.font.SysFont(self.font_name, self.text_size, bold = self.bold_text)
-        text = font.render(self.text, False, self.text_color)
-        size = text.get_size()
-        x, y = self.width//2-(size[0]//2), self.height//2-(size[1]//2)
-        pos = vec(x,y)
-        self.image.blit(text, pos)
-# ---------------------------------------------------------------------------------------------------------------------
-    #funckja odpowiadająca za zmiany wyglądu przycisku
-    def update(self, pos, game_state = ''):
-        if self.mouse_hovering(pos):
-            self.hovered = True
+        self.neighbours = []
+        self.alive_neighbours = 0
+        self.grafika = grafika
+
+
+    def update(self):
+        self.rect.topleft = (self.grid_x * 20, self.grid_y * 20)
+
+    def draw(self):
+        if self.alive:
+            self.image.blit(self.grafika, (0,0))
         else:
-            self.hovered = False
-        if self.state == '' or game_state == '':
-            self.showing = True
-        else:
-            if self.state == game_state:
-                self.showing = True
-            else:
-                self.showing = False
-# ---------------------------------------------------------------------------------------------------------------------
+            pygame.draw.rect(self.image, (50, 50, 50), (0, 0, 19, 19))
+        self.surface.blit(self.image, (self.grid_x * 20, self.grid_y * 20))
+
+
+    def get_neigbours(self, grid):
+        neighbour_list = [[1, 1], [-1, -1], [-1, 1], [1, -1], [0, -1], [0, 1], [1, 0], [-1, 0]]
+        for neighbour in neighbour_list:
+            neighbour[0] += self.grid_x
+            neighbour[1] += self.grid_y
+        for neighbour in neighbour_list:
+            if neighbour[0] < 0:
+                neighbour[0] += 60
+            if neighbour[1] < 0:
+                neighbour[1] += 60
+            if neighbour[0] > 59:
+                neighbour[0] -= 60
+            if neighbour[1] > 59:
+                neighbour[1] -= 60
+        for neighbour in neighbour_list:
+            try:
+                self.neighbours.append(grid[neighbour[1]][neighbour[0]])
+            except:
+                print(neighbour)
+
+    def live_neighbours(self):
+        count = 0
+        for neighbour in self.neighbours:
+            if neighbour.alive:
+                count += 1
+
+        self.alive_neighbours = count
+
+
+
+
+
+
+
