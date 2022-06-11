@@ -1,3 +1,3 @@
-# Window
+# Button
 
-Tutaj znajduuje się kod odpowiedzialny za okno wyboru opcji "rozgrywki"
+Tutaj znajduuje się kod odpowiedzialny za funkcjonowanie przycików.
