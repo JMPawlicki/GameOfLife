@@ -1,9 +1,10 @@
 import random
 import os
 import pygame
+import random
 
 class Cell:
-    def __init__(self, surface, grid_x, grid_y, grafika):
+    def __init__(self, surface, grid_x, grid_y, grafika, grafiki_list):
         self.alive = False
         self.surface = surface
         self.grid_x = grid_x
@@ -13,6 +14,7 @@ class Cell:
         self.neighbours = []
         self.alive_neighbours = 0
         self.grafika = grafika
+        self.grafiki_list = grafiki_list
 
 
     def update(self):
@@ -20,8 +22,9 @@ class Cell:
 
     def draw(self):
         if self.alive:
-            self.image.blit(self.grafika, (0,0))
+            self.image.blit(random.choice(self.grafiki_list), (0,0))
         else:
+            self.image.fill((70, 70, 70))
             pygame.draw.rect(self.image, (50, 50, 50), (0, 0, 19, 19))
         self.surface.blit(self.image, (self.grid_x * 20, self.grid_y * 20))
 
