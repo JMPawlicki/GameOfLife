@@ -1,4 +1,5 @@
 import copy
+import os
 import pygame
 from cell import *
 vec = pygame.math.Vector2
@@ -11,10 +12,15 @@ class Game_window:
         self.width, self.height = 1200, 1000
         self.image = pygame.Surface((self.width, self.height))
         self.rect = self.image.get_rect()
-        self.rows = 60
+        self.rows =60
         self.cols = 60
-        self.grafika = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "cell_alive.png")),(19,19))
-        self.grid = [[Cell(self.image, x, y, self.grafika) for x in range(self.cols)] for y in range(self.rows)]
+        self.grafika = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "cell.png")),(19,19))
+        self.grafika1 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_alive_02.png")), (19, 19))
+        self.grafika2 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_alive_03.png")), (19, 19))
+        self.grafika3 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_alive_04.png")), (19, 19))
+        self.grafika4 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_dead_1.png")), (19, 19))
+        self.grafiki_list =[self.grafika, self.grafika1, self.grafika2, self.grafika3]
+        self.grid = [[Cell(self.image, x, y, self.grafika, self.grafiki_list) for x in range(self.cols)] for y in range(self.rows)]
         for row in self.grid:
             for cell in row:
                 cell.get_neigbours(self.grid)
@@ -33,7 +39,7 @@ class Game_window:
         self.screen.blit(self.image, (self.pos.x, self.pos.y))
 
     def reset_grid(self):
-        self.grid = [[Cell(self.image, x, y,self.grafika) for x in range(self.cols)] for y in range(self.rows)]
+        self.grid = [[Cell(self.image, x, y,self.grafika, self.grafiki_list) for x in range(self.cols)] for y in range(self.rows)]
         for row in self.grid:
             for cell in row:
                 cell.get_neigbours(self.grid)
@@ -59,3 +65,6 @@ class Game_window:
                         new_grid[yidx][xidx].alive = True
 
         self.grid = new_grid
+
+
+
