@@ -191,3 +191,62 @@ class Gra(object):
                 # self.WIN.blit(self.hex_level_name, (800, 100))
                 pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_w_wyborze_lvla_lewy, 5)
 
+                if self.przycisk_w_wyborze_lvla_lewy.collidepoint(mx, my):
+                    if self.pierwszy > 10:
+                        self.pierwszy = 8
+                    if self.pierwszy < -12:
+                        self.pierwszy = -10
+                    if -12 <= self.pierwszy <= 10:
+                        if self.pierwszy_ostatni < self.pierwszy:
+                            self.pierwszy += 2
+                            self.pierwszy_ostatni = self.pierwszy - 1
+                        if self.pierwszy_ostatni > self.pierwszy:
+                            self.pierwszy -= 2
+                            self.pierwszy_ostatni = self.pierwszy + 1
+                    if click:
+                        pygame.mixer.music.pause()
+                        effect = pygame.mixer.Sound('click_sound.wav')
+                        effect.play()
+                        # Przejście do mapy kwadratowej.
+                        nie_wiem_co_pisze = False
+                        return
+                else:
+                    self.pierwszy = 0
+                    self.pierwszy_ostatni = -2
+
+                if hexagon_map.collidepoint(mx, my):
+                    if self.drugi > 10:
+                        self.drugi = 8
+                    if self.drugi < -12:
+                        self.drugi = -10
+                    if -12 <= self.drugi <= 10:
+                        if self.drugi_ostatni < self.drugi:
+                            self.drugi += 2
+                            self.drugi_ostatni = self.drugi - 1
+                        if self.drugi_ostatni > self.drugi:
+                            self.drugi -= 2
+                            self.drugi_ostatni = self.drugi + 1
+
+                    if click:
+                        pygame.mixer.music.pause()
+                        effect = pygame.mixer.Sound('click_sound.wav')
+                        effect.play()
+                        # Tu bedzie przejście do mapy Ul.
+                        return
+                else:
+                    self.drugi = 0
+                    self.drugi_ostatni = -2
+
+                click = False
+
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                        self.menu()
+                    if event.type == pygame.QUIT:
+                        nie_wiem_co_pisze = False
+                        pygame.quit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if event.button == 1:
+                            click = True
+
+                pygame.display.update()
