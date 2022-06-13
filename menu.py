@@ -74,3 +74,67 @@ class Gra(object):
             self.WIN.blit(self.ekran_wlaczania_gry, (0, 0))
             pygame.display.update()
             time.sleep(5.2)
+
+        def menu(self):
+
+            x = randint(0, 3)
+
+            playlist = list()
+            playlist.append("Title_music.ogg")
+            playlist.append("Title_music2.ogg")
+            playlist.append("Title_music3.ogg")
+            playlist.append("Title_music4.ogg")
+            pygame.mixer.music.load(playlist.pop(x))
+            pygame.mixer.music.set_endevent(pygame.USEREVENT)
+            pygame.mixer.music.play(-1)
+
+            if self.uruchamiasz_po_raz_pierwszy:
+                self.wlaczanie_gry_intro()
+                self.uruchamiasz_po_raz_pierwszy = False
+
+            click = False
+            while self.run:
+                self.opoznienie.tick(self.FPS)
+                mx, my = pygame.mouse.get_pos()
+                self.WIN.blit(self.pauza, (0, 0))
+
+                # Najnowsza zmiana.
+                pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_start, 5)
+                pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_how_to_play, 5)
+                pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_quit, 5)
+
+                # Start in menu
+                if self.przycisk_start.collidepoint(mx, my):
+                    if click:
+                        effect = pygame.mixer.Sound('click_sound.wav')
+                        effect.play()
+                        return
+
+                # Quit from menu
+                if self.przycisk_quit.collidepoint(mx, my):
+                    if click:
+                        pygame.quit()
+
+                # How to play
+                if self.przycisk_how_to_play.collidepoint(mx, my):
+                    if click:
+                        self.how_to_play()
+
+                self.WIN.blit(self.nazwa_gry, (500, 35))
+
+                click = False
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.run = False
+                        pygame.quit()
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if event.button == 1:
+                            click = True
+
+                    if event.type == pygame.USEREVENT:
+                        if len(playlist) > 0:
+                            pygame.mixer.music.queue(playlist.pop(x))
+
+                pygame.display.update()
