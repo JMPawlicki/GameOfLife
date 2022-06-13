@@ -138,3 +138,26 @@ class Gra(object):
                             pygame.mixer.music.queue(playlist.pop(x))
 
                 pygame.display.update()
+
+        def how_to_play(self):
+            jestes_w_how_to_play = True
+
+            while jestes_w_how_to_play:
+                self.WIN.blit(self.tlo_how_to_play, (0, 0))
+                self.WIN.blit(self.tekst_w_how_to_play1, (200, 100))
+                self.WIN.blit(self.tekst_w_how_to_play2, (200, 150))
+                self.WIN.blit(self.tekst_w_how_to_play3, (200, 200))
+                self.WIN.blit(self.tekst_w_how_to_play4, (200, 250))
+                self.WIN.blit(self.tekst_w_how_to_play5, (200, 300))
+                self.WIN.blit(self.tekst_w_how_to_play6, (200, 350))
+                self.WIN.blit(self.tekst_w_how_to_play7, (200, 400))
+                self.WIN.blit(self.tekst_w_how_to_play8, (200, 450))
+                self.WIN.blit(self.tekst_w_how_to_play9, (200, 500))
+                pygame.display.update()
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        jestes_w_how_to_play = False
+                        pygame.quit()
+                    if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                        return
