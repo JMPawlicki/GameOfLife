@@ -69,3 +69,8 @@ class Gra(object):
         self.przycisk_how_to_play = pygame.Rect(580, 510, 300, 100)
         self.przycisk_quit = pygame.Rect(580, 610, 310, 100)
         self.przycisk_w_wyborze_lvla_lewy = pygame.Rect(200, 100, 400, 300)
+
+        def wlaczanie_gry_intro(self):
+            self.WIN.blit(self.ekran_wlaczania_gry, (0, 0))
+            pygame.display.update()
+            time.sleep(5.2)
