@@ -161,3 +161,33 @@ class Gra(object):
                         pygame.quit()
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                         return
+
+        def wybor_levela(self):
+            if self.czy_nie_byles_jeszcze_w_menu:
+                self.czy_nie_byles_jeszcze_w_menu = False
+                self.menu()
+            click = False
+            nie_wiem_co_pisze = True
+            while nie_wiem_co_pisze:
+                # Stara część kodu (może się przydać jeszcze kiedyś)
+                """
+                self.square_game_thumbnail = pygame.transform.scale(
+                    pygame.image.load(os.path.join("Grafika", "square_game.png")),
+                    (500 + self.pierwszy, 200 + self.pierwszy))
+                self.hex_game_thumbnail = pygame.transform.scale(
+                    pygame.image.load(os.path.join("Grafika", "square_game.png")),
+                    (500 + self.drugi, 200 + self.drugi))
+                """
+                self.opoznienie.tick(self.FPS)
+                self.WIN.blit(self.wybor_lvla, (0, 0))
+                mx, my = pygame.mouse.get_pos()
+                square_map = pygame.Rect(100 - self.pierwszy // 2, 200 - self.pierwszy // 2, 500 + self.pierwszy,
+                                         200 + self.pierwszy)
+                hexagon_map = pygame.Rect(800 - self.drugi // 2, 200 - self.drugi // 2, 500 + self.drugi,
+                                          200 + self.drugi)
+                # self.WIN.blit(self.square_game_thumbnail, (100 - self.pierwszy // 2, 200 - self.pierwszy // 2))
+                # self.WIN.blit(self.hex_game_thumbnail, (800 - self.drugi // 2, 200 - self.drugi // 2))
+                # self.WIN.blit(self.square_level_name, (100, 100))
+                # self.WIN.blit(self.hex_level_name, (800, 100))
+                pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_w_wyborze_lvla_lewy, 5)
+
