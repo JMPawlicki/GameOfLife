@@ -52,3 +52,20 @@ class Gra(object):
             "working society? That's your duty to find it out. Based on this rules we can call this project", True,
             (0, 0, 0))
         self.tekst_w_how_to_play9 = self.mniejsza_czcionka.render('"Game of Life"', True, (0, 0, 0))
+
+        # =========================Menu Grafiki=====================================================#
+
+        self.pauza = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "lepsze_menu.png")),
+                                            (self.WIDTH, self.HEIGHT))
+        self.tlo_how_to_play = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "how_to_play_2.png")),
+                                                      (self.WIDTH, self.HEIGHT))
+        self.ekran_wlaczania_gry = pygame.transform.scale(
+            pygame.image.load(os.path.join("Grafika", "ekran_wlaczania.png")),
+            (self.WIDTH, self.HEIGHT))
+        self.wybor_lvla = pygame.transform.scale(
+            pygame.image.load(os.path.join("Grafika", "wybor_lvla.png")),
+            (self.WIDTH, self.HEIGHT))
+        self.przycisk_start = pygame.Rect(585, 420, 290, 95)
+        self.przycisk_how_to_play = pygame.Rect(580, 510, 300, 100)
+        self.przycisk_quit = pygame.Rect(580, 610, 310, 100)
+        self.przycisk_w_wyborze_lvla_lewy = pygame.Rect(200, 100, 400, 300)
