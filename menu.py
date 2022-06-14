@@ -30,6 +30,7 @@ class Gra(object):
 
 #=========================Wygląd pauzy=====================================================#
 
+        """    
         self.nazwa_gry = self.NAZWA_GRY.render('GAME OF LIFE', True, (0, 0, 0))
         self.square_level_name = self.NAZWA_GRY.render('SQUARE LEVEL', True, (0, 0, 0))
         self.hex_level_name = self.NAZWA_GRY.render('HEXAGON LEVEL', True, (0, 0, 0))
@@ -52,23 +53,33 @@ class Gra(object):
             "working society? That's your duty to find it out. Based on this rules we can call this project", True,
             (0, 0, 0))
         self.tekst_w_how_to_play9 = self.mniejsza_czcionka.render('"Game of Life"', True, (0, 0, 0))
-
+        """
         # =========================Menu Grafiki=====================================================#
 
-        self.pauza = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "lepsze_menu.png")),
+        self.pauza = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "gol_menu.png")),
                                             (self.WIDTH, self.HEIGHT))
-        self.tlo_how_to_play = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "how_to_play_2.png")),
+        self.tlo_how_to_play = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "gol_help.png")),
                                                       (self.WIDTH, self.HEIGHT))
         self.ekran_wlaczania_gry = pygame.transform.scale(
             pygame.image.load(os.path.join("Grafika", "ekran_wlaczania.png")),
             (self.WIDTH, self.HEIGHT))
         self.wybor_lvla = pygame.transform.scale(
-            pygame.image.load(os.path.join("Grafika", "wybor_lvla.png")),
+            pygame.image.load(os.path.join("Grafika", "gol_play.png")),
             (self.WIDTH, self.HEIGHT))
-        self.przycisk_start = pygame.Rect(585, 420, 290, 95)
-        self.przycisk_how_to_play = pygame.Rect(580, 510, 300, 100)
-        self.przycisk_quit = pygame.Rect(580, 610, 310, 100)
-        self.przycisk_w_wyborze_lvla_lewy = pygame.Rect(200, 100, 400, 300)
+        self.przycisk_play_obrazek = pygame.transform.scale(
+            pygame.image.load(os.path.join("Grafika", "gol_menu_play.png")),
+            (self.WIDTH, self.HEIGHT))
+        self.przycisk_help_obrazek = pygame.transform.scale(
+            pygame.image.load(os.path.join("Grafika", "gol_menu_help.png")),
+            (self.WIDTH, self.HEIGHT))
+        self.przycisk_quit_obrazek = pygame.transform.scale(
+            pygame.image.load(os.path.join("Grafika", "gol_menu_quit.png")),
+            (self.WIDTH, self.HEIGHT))
+
+        self.przycisk_start = pygame.Rect(360, 450, 420, 80)
+        self.przycisk_how_to_play = pygame.Rect(360, 540, 420, 80)
+        self.przycisk_quit = pygame.Rect(360, 630, 420, 80)
+        self.przycisk_w_wyborze_lvla_lewy = pygame.Rect(260, 330, 440, 400)
 
         def wlaczanie_gry_intro(self):
             self.WIN.blit(self.ekran_wlaczania_gry, (0, 0))
@@ -98,13 +109,10 @@ class Gra(object):
                 mx, my = pygame.mouse.get_pos()
                 self.WIN.blit(self.pauza, (0, 0))
 
-                # Najnowsza zmiana.
-                pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_start, 5)
-                pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_how_to_play, 5)
-                pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_quit, 5)
 
                 # Start in menu
                 if self.przycisk_start.collidepoint(mx, my):
+                    self.WIN.blit(self.przycisk_play_obrazek, (0, 0))
                     if click:
                         effect = pygame.mixer.Sound('click_sound.wav')
                         effect.play()
@@ -112,15 +120,17 @@ class Gra(object):
 
                 # Quit from menu
                 if self.przycisk_quit.collidepoint(mx, my):
+                    self.WIN.blit(self.przycisk_quit_obrazek, (0, 0))
                     if click:
                         pygame.quit()
 
                 # How to play
                 if self.przycisk_how_to_play.collidepoint(mx, my):
+                    self.WIN.blit(self.przycisk_help_obrazek, (0, 0))
                     if click:
                         self.how_to_play()
 
-                self.WIN.blit(self.nazwa_gry, (500, 35))
+                #self.WIN.blit(self.nazwa_gry, (500, 35))
 
                 click = False
 
@@ -144,15 +154,6 @@ class Gra(object):
 
             while jestes_w_how_to_play:
                 self.WIN.blit(self.tlo_how_to_play, (0, 0))
-                self.WIN.blit(self.tekst_w_how_to_play1, (200, 100))
-                self.WIN.blit(self.tekst_w_how_to_play2, (200, 150))
-                self.WIN.blit(self.tekst_w_how_to_play3, (200, 200))
-                self.WIN.blit(self.tekst_w_how_to_play4, (200, 250))
-                self.WIN.blit(self.tekst_w_how_to_play5, (200, 300))
-                self.WIN.blit(self.tekst_w_how_to_play6, (200, 350))
-                self.WIN.blit(self.tekst_w_how_to_play7, (200, 400))
-                self.WIN.blit(self.tekst_w_how_to_play8, (200, 450))
-                self.WIN.blit(self.tekst_w_how_to_play9, (200, 500))
                 pygame.display.update()
 
                 for event in pygame.event.get():
