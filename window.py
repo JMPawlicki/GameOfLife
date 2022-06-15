@@ -20,7 +20,7 @@ class Game_window:
         self.grafika3 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_alive_04.png")), (19, 19))
         self.grafika4 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_dead_1.png")), (19, 19))
         self.grafiki_list =[self.grafika, self.grafika1, self.grafika2, self.grafika3]
-        self.grid = [[Cell(self.image, x, y, self.grafika, self.grafiki_list) for x in range(self.cols)] for y in range(self.rows)]
+        self.grid = [[Cell(self.image, x, y, self.grafika, self.grafiki_list) for x in range(self.cols + 6)] for y in range(self.rows)]
         for row in self.grid:
             for cell in row:
                 cell.get_neigbours(self.grid)
