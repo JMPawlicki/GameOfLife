@@ -81,173 +81,173 @@ class Gra(object):
         self.przycisk_quit = pygame.Rect(360, 630, 420, 80)
         self.przycisk_w_wyborze_lvla_lewy = pygame.Rect(260, 330, 440, 400)
 
-        def wlaczanie_gry_intro(self):
-            self.WIN.blit(self.ekran_wlaczania_gry, (0, 0))
+    def wlaczanie_gry_intro(self):
+        self.WIN.blit(self.ekran_wlaczania_gry, (0, 0))
+        pygame.display.update()
+        time.sleep(5.2)
+
+    def menu(self):
+
+        x = randint(0, 3)
+
+        playlist = list()
+        playlist.append("Title_music.ogg")
+        playlist.append("Title_music2.ogg")
+        playlist.append("Title_music3.ogg")
+        playlist.append("Title_music4.ogg")
+        pygame.mixer.music.load(playlist.pop(x))
+        pygame.mixer.music.set_endevent(pygame.USEREVENT)
+        pygame.mixer.music.play(-1)
+
+        if self.uruchamiasz_po_raz_pierwszy:
+            self.wlaczanie_gry_intro()
+            self.uruchamiasz_po_raz_pierwszy = False
+
+        click = False
+        while self.run:
+            self.opoznienie.tick(self.FPS)
+            mx, my = pygame.mouse.get_pos()
+            self.WIN.blit(self.pauza, (0, 0))
+
+
+            # Start in menu
+            if self.przycisk_start.collidepoint(mx, my):
+                self.WIN.blit(self.przycisk_play_obrazek, (0, 0))
+                if click:
+                    effect = pygame.mixer.Sound('click_sound.wav')
+                    effect.play()
+                    return
+
+            # Quit from menu
+            if self.przycisk_quit.collidepoint(mx, my):
+                self.WIN.blit(self.przycisk_quit_obrazek, (0, 0))
+                if click:
+                    pygame.quit()
+
+            # How to play
+            if self.przycisk_how_to_play.collidepoint(mx, my):
+                self.WIN.blit(self.przycisk_help_obrazek, (0, 0))
+                if click:
+                    self.how_to_play()
+
+            #self.WIN.blit(self.nazwa_gry, (500, 35))
+
+            click = False
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.run = False
+                    pygame.quit()
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        click = True
+
+                if event.type == pygame.USEREVENT:
+                    if len(playlist) > 0:
+                        pygame.mixer.music.queue(playlist.pop(x))
+
             pygame.display.update()
-            time.sleep(5.2)
 
-        def menu(self):
+    def how_to_play(self):
+        jestes_w_how_to_play = True
 
-            x = randint(0, 3)
+        while jestes_w_how_to_play:
+            self.WIN.blit(self.tlo_how_to_play, (0, 0))
+            pygame.display.update()
 
-            playlist = list()
-            playlist.append("Title_music.ogg")
-            playlist.append("Title_music2.ogg")
-            playlist.append("Title_music3.ogg")
-            playlist.append("Title_music4.ogg")
-            pygame.mixer.music.load(playlist.pop(x))
-            pygame.mixer.music.set_endevent(pygame.USEREVENT)
-            pygame.mixer.music.play(-1)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    jestes_w_how_to_play = False
+                    pygame.quit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    return
 
-            if self.uruchamiasz_po_raz_pierwszy:
-                self.wlaczanie_gry_intro()
-                self.uruchamiasz_po_raz_pierwszy = False
+    def wybor_levela(self):
+        if self.czy_nie_byles_jeszcze_w_menu:
+            self.czy_nie_byles_jeszcze_w_menu = False
+            self.menu()
+        click = False
+        nie_wiem_co_pisze = True
+        while nie_wiem_co_pisze:
+            # Stara część kodu (może się przydać jeszcze kiedyś)
+            """
+            self.square_game_thumbnail = pygame.transform.scale(
+                pygame.image.load(os.path.join("Grafika", "square_game.png")),
+                (500 + self.pierwszy, 200 + self.pierwszy))
+            self.hex_game_thumbnail = pygame.transform.scale(
+                pygame.image.load(os.path.join("Grafika", "square_game.png")),
+                (500 + self.drugi, 200 + self.drugi))
+            """
+            self.opoznienie.tick(self.FPS)
+            self.WIN.blit(self.wybor_lvla, (0, 0))
+            mx, my = pygame.mouse.get_pos()
+            square_map = pygame.Rect(100 - self.pierwszy // 2, 200 - self.pierwszy // 2, 500 + self.pierwszy,
+                                     200 + self.pierwszy)
+            hexagon_map = pygame.Rect(800 - self.drugi // 2, 200 - self.drugi // 2, 500 + self.drugi,
+                                      200 + self.drugi)
+            # self.WIN.blit(self.square_game_thumbnail, (100 - self.pierwszy // 2, 200 - self.pierwszy // 2))
+            # self.WIN.blit(self.hex_game_thumbnail, (800 - self.drugi // 2, 200 - self.drugi // 2))
+            # self.WIN.blit(self.square_level_name, (100, 100))
+            # self.WIN.blit(self.hex_level_name, (800, 100))
+            pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_w_wyborze_lvla_lewy, 5)
+
+            if self.przycisk_w_wyborze_lvla_lewy.collidepoint(mx, my):
+                if self.pierwszy > 10:
+                    self.pierwszy = 8
+                if self.pierwszy < -12:
+                    self.pierwszy = -10
+                if -12 <= self.pierwszy <= 10:
+                    if self.pierwszy_ostatni < self.pierwszy:
+                        self.pierwszy += 2
+                        self.pierwszy_ostatni = self.pierwszy - 1
+                    if self.pierwszy_ostatni > self.pierwszy:
+                        self.pierwszy -= 2
+                        self.pierwszy_ostatni = self.pierwszy + 1
+                if click:
+                    pygame.mixer.music.pause()
+                    effect = pygame.mixer.Sound('click_sound.wav')
+                    effect.play()
+                    # Przejście do mapy kwadratowej.
+                    nie_wiem_co_pisze = False
+                    return
+            else:
+                self.pierwszy = 0
+                self.pierwszy_ostatni = -2
+
+            if hexagon_map.collidepoint(mx, my):
+                if self.drugi > 10:
+                    self.drugi = 8
+                if self.drugi < -12:
+                    self.drugi = -10
+                if -12 <= self.drugi <= 10:
+                    if self.drugi_ostatni < self.drugi:
+                        self.drugi += 2
+                        self.drugi_ostatni = self.drugi - 1
+                    if self.drugi_ostatni > self.drugi:
+                        self.drugi -= 2
+                        self.drugi_ostatni = self.drugi + 1
+
+                if click:
+                    pygame.mixer.music.pause()
+                    effect = pygame.mixer.Sound('click_sound.wav')
+                    effect.play()
+                    # Tu bedzie przejście do mapy Ul.
+                    return
+            else:
+                self.drugi = 0
+                self.drugi_ostatni = -2
 
             click = False
-            while self.run:
-                self.opoznienie.tick(self.FPS)
-                mx, my = pygame.mouse.get_pos()
-                self.WIN.blit(self.pauza, (0, 0))
 
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.menu()
+                if event.type == pygame.QUIT:
+                    nie_wiem_co_pisze = False
+                    pygame.quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        click = True
 
-                # Start in menu
-                if self.przycisk_start.collidepoint(mx, my):
-                    self.WIN.blit(self.przycisk_play_obrazek, (0, 0))
-                    if click:
-                        effect = pygame.mixer.Sound('click_sound.wav')
-                        effect.play()
-                        return
-
-                # Quit from menu
-                if self.przycisk_quit.collidepoint(mx, my):
-                    self.WIN.blit(self.przycisk_quit_obrazek, (0, 0))
-                    if click:
-                        pygame.quit()
-
-                # How to play
-                if self.przycisk_how_to_play.collidepoint(mx, my):
-                    self.WIN.blit(self.przycisk_help_obrazek, (0, 0))
-                    if click:
-                        self.how_to_play()
-
-                #self.WIN.blit(self.nazwa_gry, (500, 35))
-
-                click = False
-
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        self.run = False
-                        pygame.quit()
-
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        if event.button == 1:
-                            click = True
-
-                    if event.type == pygame.USEREVENT:
-                        if len(playlist) > 0:
-                            pygame.mixer.music.queue(playlist.pop(x))
-
-                pygame.display.update()
-
-        def how_to_play(self):
-            jestes_w_how_to_play = True
-
-            while jestes_w_how_to_play:
-                self.WIN.blit(self.tlo_how_to_play, (0, 0))
-                pygame.display.update()
-
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        jestes_w_how_to_play = False
-                        pygame.quit()
-                    if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                        return
-
-        def wybor_levela(self):
-            if self.czy_nie_byles_jeszcze_w_menu:
-                self.czy_nie_byles_jeszcze_w_menu = False
-                self.menu()
-            click = False
-            nie_wiem_co_pisze = True
-            while nie_wiem_co_pisze:
-                # Stara część kodu (może się przydać jeszcze kiedyś)
-                """
-                self.square_game_thumbnail = pygame.transform.scale(
-                    pygame.image.load(os.path.join("Grafika", "square_game.png")),
-                    (500 + self.pierwszy, 200 + self.pierwszy))
-                self.hex_game_thumbnail = pygame.transform.scale(
-                    pygame.image.load(os.path.join("Grafika", "square_game.png")),
-                    (500 + self.drugi, 200 + self.drugi))
-                """
-                self.opoznienie.tick(self.FPS)
-                self.WIN.blit(self.wybor_lvla, (0, 0))
-                mx, my = pygame.mouse.get_pos()
-                square_map = pygame.Rect(100 - self.pierwszy // 2, 200 - self.pierwszy // 2, 500 + self.pierwszy,
-                                         200 + self.pierwszy)
-                hexagon_map = pygame.Rect(800 - self.drugi // 2, 200 - self.drugi // 2, 500 + self.drugi,
-                                          200 + self.drugi)
-                # self.WIN.blit(self.square_game_thumbnail, (100 - self.pierwszy // 2, 200 - self.pierwszy // 2))
-                # self.WIN.blit(self.hex_game_thumbnail, (800 - self.drugi // 2, 200 - self.drugi // 2))
-                # self.WIN.blit(self.square_level_name, (100, 100))
-                # self.WIN.blit(self.hex_level_name, (800, 100))
-                pygame.draw.rect(self.WIN, (0, 0, 0), self.przycisk_w_wyborze_lvla_lewy, 5)
-
-                if self.przycisk_w_wyborze_lvla_lewy.collidepoint(mx, my):
-                    if self.pierwszy > 10:
-                        self.pierwszy = 8
-                    if self.pierwszy < -12:
-                        self.pierwszy = -10
-                    if -12 <= self.pierwszy <= 10:
-                        if self.pierwszy_ostatni < self.pierwszy:
-                            self.pierwszy += 2
-                            self.pierwszy_ostatni = self.pierwszy - 1
-                        if self.pierwszy_ostatni > self.pierwszy:
-                            self.pierwszy -= 2
-                            self.pierwszy_ostatni = self.pierwszy + 1
-                    if click:
-                        pygame.mixer.music.pause()
-                        effect = pygame.mixer.Sound('click_sound.wav')
-                        effect.play()
-                        # Przejście do mapy kwadratowej.
-                        nie_wiem_co_pisze = False
-                        return
-                else:
-                    self.pierwszy = 0
-                    self.pierwszy_ostatni = -2
-
-                if hexagon_map.collidepoint(mx, my):
-                    if self.drugi > 10:
-                        self.drugi = 8
-                    if self.drugi < -12:
-                        self.drugi = -10
-                    if -12 <= self.drugi <= 10:
-                        if self.drugi_ostatni < self.drugi:
-                            self.drugi += 2
-                            self.drugi_ostatni = self.drugi - 1
-                        if self.drugi_ostatni > self.drugi:
-                            self.drugi -= 2
-                            self.drugi_ostatni = self.drugi + 1
-
-                    if click:
-                        pygame.mixer.music.pause()
-                        effect = pygame.mixer.Sound('click_sound.wav')
-                        effect.play()
-                        # Tu bedzie przejście do mapy Ul.
-                        return
-                else:
-                    self.drugi = 0
-                    self.drugi_ostatni = -2
-
-                click = False
-
-                for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                        self.menu()
-                    if event.type == pygame.QUIT:
-                        nie_wiem_co_pisze = False
-                        pygame.quit()
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        if event.button == 1:
-                            click = True
-
-                pygame.display.update()
+            pygame.display.update()
