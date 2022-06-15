@@ -14,7 +14,7 @@ class Game_window:
         self.rect = self.image.get_rect()
         self.rows =60
         self.cols = 60
-        self.grafika = pygame.transform.scale(pygame.image.load(os.path.join("Grafika", "cell.png")),(19,19))
+        self.grafika = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_alive_01.png")),(19,19))
         self.grafika1 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_alive_02.png")), (19, 19))
         self.grafika2 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_alive_03.png")), (19, 19))
         self.grafika3 = pygame.transform.scale(pygame.image.load(os.path.join("GoL", "cell_alive_04.png")), (19, 19))
